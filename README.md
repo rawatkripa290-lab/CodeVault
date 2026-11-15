@@ -143,9 +143,9 @@ The main objective of CodeVault is to provide developers with a centralized plat
 
 ## 👨‍💻 Author
 
-**Your Name**
+**Kripa Rawat**
 
-GitHub: https://github.com/YOUR_USERNAME
+GitHub: https://github.com/rawatkripa290-lab
 
 ---
 
