@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: `${import.meta.env.CODE_VAULT_SRECT}/api`
+  baseURL: `${import.meta.env.VITE_CODE_URI_SRECT}/api`
 });
 
 API.interceptors.request.use((config) => {
