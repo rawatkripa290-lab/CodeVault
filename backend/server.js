@@ -8,8 +8,11 @@ const authMiddleware = require("./middleware/auth.middleware")
 const knowledgeRoutes = require("./routes/knowledge.routes");
 const app = express();
 app.use(cors({
-  origin:"http://localhost:5173"
-}))
+  origin: [
+    "http://localhost:5173",
+    "https://code-vault-hazel.vercel.app"
+  ]
+}));
 app.use(express.json())
 app.use("/api/auth",authRoutes)
 app.use("/api/knowledge", knowledgeRoutes);
