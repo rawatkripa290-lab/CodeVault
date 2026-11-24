@@ -65,7 +65,7 @@ function Login() {
           </div>
 
           <h1 className="text-3xl font-bold text-black">
-            Code<span className="text-red-500">Vault</span>
+            Yellow<span className="text-red-500">Byte</span>
           </h1>
 
           <h2 className="mt-4 text-2xl font-semibold text-zinc-00">
