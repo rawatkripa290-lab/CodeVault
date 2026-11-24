@@ -1,26 +1,40 @@
-const express = require("express")
-const dotenv = require("dotenv")
-const cors = require("cors")
-const connectDB= require("./config/db")
-const authRoutes = require("./routes/auth.routes")
+
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/auth.routes");
+
 dotenv.config();
-const authMiddleware = require("./middleware/auth.middleware")
+
+const authMiddleware = require("./middleware/auth.middleware");
 const knowledgeRoutes = require("./routes/knowledge.routes");
+
 const app = express();
+
+// CORS Configuration
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://code-vault-hazel.vercel.app"
-  ]
+    "https://code-vault-hazel.vercel.app",
+    "https://code-vault-34r8hfqcp-kripabuids.vercel.app"
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
-app.use(express.json())
-app.use("/api/auth",authRoutes)
+
+app.use(express.json());
+
+// Routes
+app.use("/api/auth", authRoutes);
 app.use("/api/knowledge", knowledgeRoutes);
-app.get("/",(req,res)=>{
+
+app.get("/", (req, res) => {
   res.status(200).json({
-    message:"Welcome to codevault API "
-  })
-})
+    message: "Welcome to codevault API"
+  });
+});
+
 app.get("/api/protected", authMiddleware, (req, res) => {
   res.status(200).json({
     message: "You accessed a protected route!",
@@ -28,12 +42,15 @@ app.get("/api/protected", authMiddleware, (req, res) => {
   });
 });
 
+// Start Server
 const PORT = process.env.PORT || 5000;
-async function startServer(){
+
+async function startServer() {
   await connectDB();
-  app.listen(PORT ,()=>{
-    console.log(`Server started at : ${PORT}`)
-  })
+
+  app.listen(PORT, () => {
+    console.log(`Server started at: ${PORT}`);
+  });
 }
 
 startServer();
