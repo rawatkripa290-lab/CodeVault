@@ -193,7 +193,7 @@ function Dashboard() {
             </div>
 
             <h1 className="text-2xl font-bold text-yellow-300">
-              Code<span className="text-white">Vault</span>
+              Yellow<span className="text-white">Byte</span>
             </h1>
           </div>
 
