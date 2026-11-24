@@ -99,27 +99,28 @@ function EditKnowledge() {
   }
 
   const inputStyle =
-    "w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+    "w-full rounded-lg border border-yellow-400 bg-yellow-50 px-4 py-3 text-black outline-none transition focus:border-red-600 focus:ring-2 focus:ring-yellow-200";
 
   const labelStyle =
-    "mb-2 block text-sm font-medium text-slate-700";
+    "mb-2 block text-sm font-semibold text-black";
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-100">
-        <Loader2 className="animate-spin text-blue-600" />
-        <span className="ml-3 text-slate-500">Loading...</span>
+      <div className="flex min-h-screen items-center justify-center bg-yellow-50">
+        <Loader2 className="animate-spin text-red-600" />
+        <span className="ml-3 text-zinc-600">Loading...</span>
       </div>
     );
   }
 
   if (message && !formData.title) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-slate-100">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-yellow-50">
         <p className="mb-4 text-red-600">{message}</p>
+
         <button
           onClick={() => navigate("/dashboard")}
-          className="rounded-lg bg-blue-600 px-5 py-2 text-white"
+          className="rounded-lg bg-red-600 px-5 py-2 font-semibold text-white transition hover:bg-black"
         >
           Back to Dashboard
         </button>
@@ -128,31 +129,40 @@ function EditKnowledge() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 px-4 py-8 sm:px-8">
-      <div className="mx-auto max-w-3xl">
+    <div className="min-h-screen bg-yellow-50 px-4 py-8 sm:px-8">
 
+      <div className="w-full">
+
+        {/* Back Button */}
         <button
           onClick={() => navigate(`/knowledge/${id}`)}
-          className="mb-6 flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-slate-600 hover:bg-slate-50"
+          className="mb-6 flex items-center gap-2 rounded-lg border border-yellow-400 bg-yellow-300 px-4 py-2 font-semibold text-black transition hover:bg-black hover:text-yellow-300 text-xl"
         >
           <ArrowLeft size={18} />
           Back to Details
         </button>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        {/* Edit Form Card */}
+        <div className="rounded-2xl border border-yellow-400 bg-white p-6 shadow-lg sm:p-8">
 
-          <h1 className="mb-2 text-2xl font-bold text-slate-900">
-            Edit Knowledge
-          </h1>
+          <div className="mb-7 border-b border-yellow-200 pb-5">
 
-          <p className="mb-7 text-sm text-slate-500">
-            Update your saved developer knowledge.
-          </p>
+            <h1 className="mb-2 text-2xl font-extrabold text-black">
+              Edit Knowledge<span className="text-red-600">.</span>
+            </h1>
+
+            <p className="text-sm text-zinc-800">
+              Update your saved developer knowledge.
+            </p>
+
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
 
+            {/* Title */}
             <div>
               <label className={labelStyle}>Title *</label>
+
               <input
                 name="title"
                 value={formData.title}
@@ -162,8 +172,10 @@ function EditKnowledge() {
               />
             </div>
 
+            {/* Description */}
             <div>
               <label className={labelStyle}>Description</label>
+
               <textarea
                 name="description"
                 value={formData.description}
@@ -173,8 +185,10 @@ function EditKnowledge() {
               />
             </div>
 
+            {/* Knowledge Type */}
             <div>
               <label className={labelStyle}>Knowledge Type *</label>
+
               <select
                 name="type"
                 value={formData.type}
@@ -188,8 +202,10 @@ function EditKnowledge() {
               </select>
             </div>
 
+            {/* Content */}
             <div>
               <label className={labelStyle}>Content</label>
+
               <textarea
                 name="content"
                 value={formData.content}
@@ -199,9 +215,12 @@ function EditKnowledge() {
               />
             </div>
 
+            {/* Language and Category */}
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+
               <div>
                 <label className={labelStyle}>Language</label>
+
                 <input
                   name="language"
                   value={formData.language}
@@ -212,6 +231,7 @@ function EditKnowledge() {
 
               <div>
                 <label className={labelStyle}>Category</label>
+
                 <input
                   name="category"
                   value={formData.category}
@@ -219,10 +239,13 @@ function EditKnowledge() {
                   className={inputStyle}
                 />
               </div>
+
             </div>
 
+            {/* Tags */}
             <div>
               <label className={labelStyle}>Tags</label>
+
               <input
                 name="tags"
                 value={formData.tags}
@@ -230,14 +253,17 @@ function EditKnowledge() {
                 placeholder="arrays, searching, algorithms"
                 className={inputStyle}
               />
-              <p className="mt-2 text-xs text-slate-400">
+
+              <p className="mt-2 text-xs text-zinc-500">
                 Separate tags with commas.
               </p>
             </div>
 
+            {/* Resource URL */}
             {formData.type === "resource" && (
               <div>
                 <label className={labelStyle}>Resource URL</label>
+
                 <input
                   type="url"
                   name="url"
@@ -249,16 +275,18 @@ function EditKnowledge() {
               </div>
             )}
 
+            {/* Error Message */}
             {message && (
-              <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
+              <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
                 {message}
               </p>
             )}
 
+            {/* Save Changes */}
             <button
               type="submit"
               disabled={saving}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 font-bold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60 text-xl"
             >
               <Save size={18} />
               {saving ? "Updating..." : "Save Changes"}

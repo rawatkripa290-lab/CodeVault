@@ -59,32 +59,32 @@ function AddKnowledge() {
   }
 
   const inputStyle =
-    "w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100";
+    "w-full rounded-lg border border-yellow-400 bg-yellow-50 px-4 py-3 text-black outline-none transition focus:border-red-600 focus:ring-2 focus:ring-yellow-200";
 
   const labelStyle =
-    "mb-2 block text-sm font-medium text-slate-700";
+    "mb-2 block text-sm font-semibold text-black";
 
   return (
-    <div className="min-h-screen bg-slate-100 px-4 py-8 sm:px-8">
+    <div className="min-h-screen bg-yellow-50 px-4 py-8 sm:px-8">
 
-      <div className="mx-auto max-w-3xl">
+      <div className="w-full">
 
         {/* Header */}
         <div className="mb-8 flex items-center gap-3">
 
           <Link
             to="/dashboard"
-            className="rounded-lg border border-slate-200 bg-white p-2 text-slate-600 transition hover:bg-slate-50"
+            className="rounded-lg border border-yellow-400 bg-yellow-300 p-2 text-black transition hover:bg-red-600 hover:text-white"
           >
             <ArrowLeft size={20} />
           </Link>
 
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              Add Knowledge
+            <h1 className="text-2xl font-extrabold text-black">
+              Add Knowledge<span className="text-red-600">.</span>
             </h1>
 
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-zinc-600">
               Save something new to your developer library.
             </p>
           </div>
@@ -92,22 +92,24 @@ function AddKnowledge() {
         </div>
 
         {/* Form Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <div className="rounded-2xl border border-yellow-400 bg-white p-6 shadow-lg sm:p-8">
 
-          <div className="mb-7 flex items-center gap-3 border-b border-slate-100 pb-5">
-            <div className="rounded-xl bg-blue-50 p-3 text-blue-600">
+          <div className="mb-7 flex items-center gap-3 border-b border-yellow-200 pb-5">
+
+            <div className="rounded-xl bg-black p-3 text-yellow-300">
               <Code2 size={25} />
             </div>
 
             <div>
-              <h2 className="font-semibold text-slate-900">
+              <h2 className="font-bold text-black">
                 Knowledge Details
               </h2>
 
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-zinc-500">
                 Fill in the information below.
               </p>
             </div>
+
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -159,39 +161,41 @@ function AddKnowledge() {
             </div>
 
             {/* Content */}
-            {/* Content */}
-<div>
-  <label className={labelStyle}>
-    {formData.type === "snippet" ? "Code" : "Content"}
-  </label>
+            <div>
+              <label className={labelStyle}>
+                {formData.type === "snippet" ? "Code" : "Content"}
+              </label>
 
-  <textarea
-    name="content"
-    value={formData.content}
-    onChange={handleChange}
-    placeholder={
-      formData.type === "snippet"
-        ? "Paste your code here..."
-        : "Write your notes here..."
-    }
-    rows="7"
-    className={`${inputStyle} font-mono text-sm`}
-  />
-</div>
+              <textarea
+                name="content"
+                value={formData.content}
+                onChange={handleChange}
+                placeholder={
+                  formData.type === "snippet"
+                    ? "Paste your code here..."
+                    : "Write your notes here..."
+                }
+                rows="7"
+                className={`${inputStyle} font-mono text-sm`}
+              />
+            </div>
 
-{/* Live Code Preview */}
-{formData.type === "snippet" && formData.content.trim() && (
-  <div className="space-y-2">
-    <h3 className="text-sm font-semibold text-slate-700">
-      Code Preview
-    </h3>
+            {/* Live Code Preview */}
+            {formData.type === "snippet" && formData.content.trim() && (
+              <div className="space-y-2 rounded-xl border border-yellow-400 bg-yellow-50 p-4">
 
-    <CodeBlock
-      code={formData.content}
-      language={formData.language || "javascript"}
-    />
-  </div>
-)}
+                <h3 className="text-sm font-bold text-black">
+                  Code Preview
+                </h3>
+
+                <CodeBlock
+                  code={formData.content}
+                  language={formData.language || "javascript"}
+                />
+
+              </div>
+            )}
+
             {/* Tags */}
             <div>
               <label className={labelStyle}>Tags</label>
@@ -205,7 +209,7 @@ function AddKnowledge() {
                 className={inputStyle}
               />
 
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-zinc-500">
                 Separate multiple tags using commas.
               </p>
             </div>
@@ -228,18 +232,18 @@ function AddKnowledge() {
 
             {/* Error Message */}
             {message && (
-              <p className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
+              <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600">
                 {message}
               </p>
             )}
 
             {/* Submit */}
-            <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row">
+            <div className="flex flex-col gap-3 border-t border-yellow-200 pt-5 sm:flex-row">
 
               <button
                 type="submit"
                 disabled={loading}
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 font-bold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <Save size={18} />
                 {loading ? "Saving..." : "Save Knowledge"}
@@ -247,7 +251,7 @@ function AddKnowledge() {
 
               <Link
                 to="/dashboard"
-                className="rounded-lg border border-slate-200 px-5 py-3 text-center font-medium text-slate-600 transition hover:bg-slate-50"
+                className="rounded-lg border border-yellow-400 bg-yellow-300 px-5 py-3 text-center font-semibold text-black transition hover:bg-black hover:text-yellow-300"
               >
                 Cancel
               </Link>

@@ -45,24 +45,32 @@ function Register() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-10">
+    <div
+      className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed px-4 py-10"
+      style={{
+        backgroundImage: "url('/dev-background.png')"
+      }}
+    >
+      {/* Black Overlay */}
+      <div className="absolute inset-0 bg-black/60"></div>
 
-      <div className="w-full max-w-md rounded-2xl border border-blue-300 bg-blue-300 p-8 shadow-2xl">
+      {/* Register Card */}
+      <div className="relative z-10 w-full max-w-md rounded-2xl border border-white/60 bg-yellow-300 p-8 shadow-2xl">
 
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-blue-500/10">
-            <Code2 size={30} className="text-blue-700" />
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-black">
+            <Code2 size={30} className="text-yellow-300" />
           </div>
 
-          <h1 className="text-3xl font-bold text-blue-700">
-            Code<span className="text-blue-500">Vault</span>
+          <h1 className="text-3xl font-bold text-black">
+            Code<span className="text-red-500">Vault</span>
           </h1>
 
           <h2 className="mt-4 text-xl font-semibold text-black">
             Create Your Account
           </h2>
 
-          <p className="mt-2 text-sm text-slate-900">
+          <p className="mt-2 text-sm text-red-500">
             Start organizing your developer knowledge.
           </p>
         </div>
@@ -70,11 +78,11 @@ function Register() {
         <form onSubmit={handleSubmit} className="space-y-5">
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-black">
+            <label className="mb-2 block text-md font-medium text-black">
               Username
             </label>
 
-            <div className="flex items-center rounded-lg border border-slate-700 bg-slate-800 px-3 focus-within:border-blue-800">
+            <div className="flex items-center rounded-lg border border-slate-700 bg-black px-3 focus-within:border-black">
               <User size={18} className="text-white" />
 
               <input
@@ -90,11 +98,11 @@ function Register() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-black">
+            <label className="mb-2 block text-md font-medium text-black">
               Email Address
             </label>
 
-            <div className="flex items-center rounded-lg border border-slate-700 bg-slate-800 px-3 focus-within:border-sky-500">
+            <div className="flex items-center rounded-lg border border-slate-700 bg-black px-3 focus-within:border-black">
               <Mail size={18} className="text-white" />
 
               <input
@@ -110,11 +118,11 @@ function Register() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-black">
+            <label className="mb-2 block text-md font-medium text-black">
               Password
             </label>
 
-            <div className="flex items-center rounded-lg border border-slate-700 bg-slate-800 px-3 focus-within:border-sky-500">
+            <div className="flex items-center rounded-lg border border-slate-700 bg-black px-3 focus-within:border-black">
               <Lock size={18} className="text-white" />
 
               <input
@@ -133,7 +141,7 @@ function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-blue-700 py-3 font-semibold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-lg bg-red-700 py-3 font-semibold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Creating Account..." : "Create Account"}
           </button>
@@ -147,11 +155,11 @@ function Register() {
         )}
 
         <div className="mt-6 border-t border-slate-800 pt-5 text-center">
-          <p className="text-sm text-black">
+          <p className="text-md text-black">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-semibold text-black hover:text-blue-700"
+              className="font-semibold text-red-700 hover:text-black"
             >
               Login
             </Link>

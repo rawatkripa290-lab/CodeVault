@@ -34,9 +34,10 @@ function Dashboard() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState("all");
-const [selectedLanguage, setSelectedLanguage] = useState("all");
-const [selectedCategory, setSelectedCategory] = useState("all");
-const [sortOrder, setSortOrder] = useState("newest");
+  const [selectedLanguage, setSelectedLanguage] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortOrder, setSortOrder] = useState("newest");
+
   useEffect(() => {
     fetchKnowledge();
   }, []);
@@ -70,41 +71,42 @@ const [sortOrder, setSortOrder] = useState("newest");
     navigate("/login");
   }
 
+  function handleViewKnowledge(id) {
+    navigate(`/knowledge/${id}`);
+  }
+
   const notes = knowledge.filter(item => item.type === "note").length;
   const snippets = knowledge.filter(item => item.type === "snippet").length;
   const resources = knowledge.filter(item => item.type === "resource").length;
 
- 
   const stats = [
     {
       title: "Total Knowledge",
       count: knowledge.length,
       icon: BookOpen,
-      color: "bg-blue-100 text-blue-600"
+      color: "bg-yellow-300 text-black"
     },
     {
       title: "Notes",
       count: notes,
       icon: LayoutDashboard,
-      color: "bg-purple-100 text-purple-600"
+      color: "bg-red-100 text-red-700"
     },
     {
       title: "Code Snippets",
       count: snippets,
       icon: FileCode,
-      color: "bg-green-100 text-green-600"
+      color: "bg-zinc-200 text-black"
     },
     {
       title: "Resources",
       count: resources,
       icon: Bookmark,
-      color: "bg-orange-100 text-orange-600"
+      color: "bg-yellow-100 text-yellow-700"
     }
   ];
-  function handleViewKnowledge(id) {
-  navigate(`/knowledge/${id}`);
-}
-const filteredKnowledge = knowledge
+
+  const filteredKnowledge = knowledge
     .filter((item) => {
       const matchesSearch =
         item.title?.toLowerCase().includes(search.toLowerCase()) ||
@@ -134,92 +136,98 @@ const filteredKnowledge = knowledge
       return new Date(a.createdAt) - new Date(b.createdAt);
     });
 
-// Category-wise distribution
-const categoryData = Object.entries(
-  knowledge.reduce((acc, item) => {
-    const category = item.category || "Uncategorized";
-    acc[category] = (acc[category] || 0) + 1;
-    return acc;
-  }, {})
-).map(([name, value]) => ({
-  name,
-  value
-}));
+  // Category-wise distribution
+  const categoryData = Object.entries(
+    knowledge.reduce((acc, item) => {
+      const category = item.category || "Uncategorized";
+      acc[category] = (acc[category] || 0) + 1;
+      return acc;
+    }, {})
+  ).map(([name, value]) => ({
+    name,
+    value
+  }));
 
-// Programming language distribution
-const languageData = Object.entries(
-  knowledge.reduce((acc, item) => {
-    if (item.type === "snippet" && item.language) {
-      acc[item.language] = (acc[item.language] || 0) + 1;
-    }
-    return acc;
-  }, {})
-).map(([name, total]) => ({
-  name,
-  total
-}));
+  // Programming language distribution
+  const languageData = Object.entries(
+    knowledge.reduce((acc, item) => {
+      if (item.type === "snippet" && item.language) {
+        acc[item.language] = (acc[item.language] || 0) + 1;
+      }
+      return acc;
+    }, {})
+  ).map(([name, total]) => ({
+    name,
+    total
+  }));
 
-// Recently updated knowledge
-const recentKnowledge = [...knowledge]
-  .sort((a, b) => {
-    const dateA = new Date(a.updatedAt || a.createdAt);
-    const dateB = new Date(b.updatedAt || b.createdAt);
-    return dateB - dateA;
-  })
-  .slice(0, 5);
+  // Recently updated knowledge
+  const recentKnowledge = [...knowledge]
+    .sort((a, b) => {
+      const dateA = new Date(a.updatedAt || a.createdAt);
+      const dateB = new Date(b.updatedAt || b.createdAt);
+      return dateB - dateA;
+    })
+    .slice(0, 5);
 
-const chartColors = [
-  "#2563eb",
-  "#9333ea",
-  "#16a34a",
-  "#ea580c",
-  "#0891b2",
-  "#db2777"
-];
+  const chartColors = [
+    "#eab308",
+    "#dc2626",
+    "#171717",
+    "#ca8a04",
+    "#991b1b",
+    "#737373"
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-800">
+    <div className="min-h-screen bg-yellow-50 text-black">
 
       <div className="flex min-h-screen">
 
         {/* Sidebar */}
-        <aside className="hidden w-64 shrink-0 border-r border-slate-200 bg-white p-6 md:flex md:flex-col">
+        <aside className="hidden w-64 shrink-0 border-r border-yellow-400/20 bg-black p-6 md:flex md:flex-col">
 
           <div className="mb-10 flex items-center gap-3">
-            <div className="rounded-xl bg-blue-600 p-2 text-white">
+            <div className="rounded-xl bg-yellow-300 p-2 text-black">
               <Code2 size={25} />
             </div>
 
-            <h1 className="text-2xl font-bold text-slate-900">
-              Code<span className="text-blue-600">Vault</span>
+            <h1 className="text-2xl font-bold text-yellow-300">
+              Code<span className="text-white">Vault</span>
             </h1>
           </div>
 
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+          <p className="mb-3 text-xl font-semibold uppercase tracking-wider text-white">
             Workspace
           </p>
 
           <nav className="space-y-2">
-            <button className="flex w-full items-center gap-3 rounded-lg bg-blue-50 px-4 py-3 text-left font-medium text-blue-600">
+            <button className="flex w-full items-center gap-3 rounded-lg bg-yellow-300 px-4 py-3 text-left font-semibold text-black">
               <LayoutDashboard size={19} />
               Dashboard
             </button>
 
-            <button className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-slate-600 transition hover:bg-slate-100">
+            <button
+              onClick={() => document.getElementById("knowledge-records")?.scrollIntoView({ behavior: "smooth" })}
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-white transition hover:bg-yellow-300 hover:text-black"
+            >
               <BookOpen size={19} />
               My Knowledge
             </button>
 
-            <button className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-slate-600 transition hover:bg-slate-100">
+            <button
+              onClick={() => document.getElementById("knowledge-filters")?.scrollIntoView({ behavior: "smooth" })}
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-white transition hover:bg-yellow-300 hover:text-black"
+            >
               <FolderOpen size={19} />
               Categories
             </button>
           </nav>
 
-          <div className="mt-auto border-t border-slate-200 pt-5">
+          <div className="mt-auto border-t border-yellow-400/20 pt-5">
             <button
               onClick={handleLogout}
-              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-red-500 transition hover:bg-red-50"
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-red-400 transition hover:bg-red-600 hover:text-white"
             >
               <LogOut size={19} />
               Logout
@@ -234,18 +242,18 @@ const chartColors = [
           <header className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 
             <div>
-              <h2 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                Dashboard
+              <h2 className="text-2xl font-extrabold text-black sm:text-3xl">
+                Let's Start<span className="text-red-600">.</span>
               </h2>
 
-              <p className="mt-1 text-sm text-slate-500">
+              <p className="mt-1 text-sm text-zinc-600">
                 Welcome back! Here's your knowledge overview.
               </p>
             </div>
 
             <button
               onClick={() => navigate("/add-knowledge")}
-              className="flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 py-3 font-medium text-white shadow-sm transition hover:bg-blue-700"
+              className="flex items-center justify-center gap-2 rounded-lg bg-red-600 px-5 py-3 font-semibold text-white shadow-sm transition hover:bg-black"
             >
               <Plus size={19} />
               Add Knowledge
@@ -254,7 +262,7 @@ const chartColors = [
           </header>
 
           {/* Statistics */}
-          <section className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+          <section className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
 
             {stats.map((stat, index) => {
               const Icon = stat.icon;
@@ -262,15 +270,15 @@ const chartColors = [
               return (
                 <div
                   key={index}
-                  className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                  className="rounded-xl border border-yellow-300 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg "
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-slate-500">
+                      <p className="text-sm font-semibold text-zinc-500">
                         {stat.title}
                       </p>
 
-                      <h3 className="mt-3 text-3xl font-bold text-slate-900">
+                      <h3 className="mt-3 text-3xl font-extrabold text-black">
                         {stat.count}
                       </h3>
                     </div>
@@ -285,283 +293,295 @@ const chartColors = [
 
           </section>
 
-{/* Dashboard Analytics */}
-<section className="mb-8 grid grid-cols-1 gap-5 xl:grid-cols-2">
+          {/* Dashboard Analytics */}
+          <section className="mb-8 grid grid-cols-1 gap-5 xl:grid-cols-2">
 
-  {/* Category Distribution */}
-  <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            {/* Category Distribution */}
+            <div className="rounded-xl border border-yellow-400 bg-white p-5 shadow-sm">
 
-    <h3 className="mb-1 text-lg font-bold text-slate-900">
-      Category Distribution
-    </h3>
+              <h3 className="mb-1 text-2xl font-bold text-black">
+                Category Distribution
+              </h3>
 
-    <p className="mb-4 text-sm text-slate-500">
-      Your knowledge across different categories
-    </p>
+              <p className="mb-4 text-xl text-zinc-900">
+                Your knowledge across different categories
+              </p>
 
-    {categoryData.length === 0 ? (
-      <p className="py-16 text-center text-slate-400">
-        No category data available
-      </p>
-    ) : (
-      <ResponsiveContainer width="100%" height={260}>
-        <PieChart>
-          <Pie
-            data={categoryData}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={90}
-            label
-          >
-            {categoryData.map((entry, index) => (
-              <Cell
-                key={entry.name}
-                fill={chartColors[index % chartColors.length]}
-              />
-            ))}
-          </Pie>
+              {categoryData.length === 0 ? (
+                <p className="py-16 text-center text-zinc-400">
+                  No category data available
+                </p>
+              ) : (
+                <ResponsiveContainer width="100%" height={260}>
+                  <PieChart>
+                    <Pie
+                      data={categoryData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={90}
+                      label
+                    >
+                      {categoryData.map((entry, index) => (
+                        <Cell
+                          key={entry.name}
+                          fill={chartColors[index % chartColors.length]}
+                        />
+                      ))}
+                    </Pie>
 
-          <Tooltip />
-        </PieChart>
-      </ResponsiveContainer>
-    )}
-  </div>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              )}
+            </div>
 
-  {/* Programming Languages */}
-  <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            {/* Programming Languages */}
+            <div className="rounded-xl border border-yellow-400 bg-white p-5 shadow-sm">
 
-    <h3 className="mb-1 text-lg font-bold text-slate-900">
-      Programming Languages
-    </h3>
+              <h3 className="mb-1 text-2xl font-bold text-black">
+                Programming Languages
+              </h3>
 
-    <p className="mb-4 text-sm text-slate-500">
-      Your saved code snippets by language
-    </p>
+              <p className="mb-4 text-xl text-zinc-900">
+                Your saved code snippets by language
+              </p>
 
-    {languageData.length === 0 ? (
-      <p className="py-16 text-center text-slate-400">
-        No programming language data available
-      </p>
-    ) : (
-      <ResponsiveContainer width="100%" height={260}>
-        <BarChart data={languageData}>
+              {languageData.length === 0 ? (
+                <p className="py-16 text-center text-zinc-400">
+                  No programming language data available
+                </p>
+              ) : (
+                <ResponsiveContainer width="100%" height={260}>
+                  <BarChart data={languageData}>
 
-          <CartesianGrid strokeDasharray="3 3" />
+                    <CartesianGrid strokeDasharray="3 3" />
 
-          <XAxis
-            dataKey="name"
-            tick={{ fontSize: 12 }}
-          />
+                    <XAxis
+                      dataKey="name"
+                      tick={{ fontSize: 12 }}
+                    />
 
-          <YAxis allowDecimals={false} />
+                    <YAxis allowDecimals={false} />
 
-          <Tooltip />
+                    <Tooltip />
 
-          <Bar
-            dataKey="total"
-            fill="#2563eb"
-            radius={[6, 6, 0, 0]}
-          />
+                    <Bar
+                      dataKey="total"
+                      fill="#dc2626"
+                      radius={[6, 6, 0, 0]}
+                    />
 
-        </BarChart>
-      </ResponsiveContainer>
-    )}
-  </div>
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
+            </div>
 
-</section>
+          </section>
 
-{/* Recently Updated Knowledge */}
-<section className="mb-8 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          {/* Recently Updated Knowledge */}
+          <section className="mb-8 rounded-xl border border-yellow-400 bg-white p-5 shadow-sm">
 
-  <div className="mb-5">
-    <h3 className="text-lg font-bold text-slate-900">
-      Recently Updated
-    </h3>
+            <div className="mb-5">
+              <h3 className="text-xl font-bold text-black">
+                Recently Updated
+              </h3>
 
-    <p className="text-sm text-slate-500">
-      Your latest knowledge updates
-    </p>
-  </div>
+              <p className="text-sm text-zinc-600">
+                Your latest knowledge updates
+              </p>
+            </div>
 
-  {recentKnowledge.length === 0 ? (
-    <p className="py-8 text-center text-slate-400">
-      No knowledge available
-    </p>
-  ) : (
-    <div className="space-y-4">
+            {recentKnowledge.length === 0 ? (
+              <p className="py-8 text-center text-zinc-400">
+                No knowledge available
+              </p>
+            ) : (
+              <div className="space-y-4">
 
-      {recentKnowledge.map((item) => (
-        <div
-          key={item._id}
-          onClick={() => handleViewKnowledge(item._id)}
-          className="flex cursor-pointer items-center justify-between gap-3 rounded-lg p-3 transition hover:bg-slate-50"
-        >
+                {recentKnowledge.map((item) => (
+                  <div
+                    key={item._id}
+                    onClick={() => handleViewKnowledge(item._id)}
+                    className="flex cursor-pointer items-center justify-between gap-3 rounded-lg p-3 transition hover:bg-yellow-50"
+                  >
 
-          <div className="min-w-0">
-            <h4 className="truncate font-semibold text-slate-800">
-              {item.title}
-            </h4>
+                    <div className="min-w-0">
+                      <h4 className="truncate font-semibold text-black">
+                        {item.title}
+                      </h4>
 
-            <p className="mt-1 text-xs capitalize text-slate-500">
-              {item.type} · {item.category || "Uncategorized"}
-            </p>
-          </div>
+                      <p className="mt-1 text-xs capitalize text-zinc-500">
+                        {item.type} · {item.category || "Uncategorized"}
+                      </p>
+                    </div>
 
-          <div className="shrink-0 text-xs text-slate-400">
-            {new Date(
-              item.updatedAt || item.createdAt
-            ).toLocaleDateString()}
-          </div>
+                    <div className="shrink-0 text-xs text-red-600">
+                      {new Date(
+                        item.updatedAt || item.createdAt
+                      ).toLocaleDateString()}
+                    </div>
 
-        </div>
-      ))}
+                  </div>
+                ))}
 
-    </div>
-  )}
+              </div>
+            )}
 
-</section>
+          </section>
 
           {/* Search */}
-          <section className="mb-8 rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+          <section className="mb-8 rounded-xl border border-yellow-400 bg-white p-5 shadow-sm">
 
-            <h3 className="mb-4 text-lg font-semibold text-slate-900">
+            <h3 className="mb-4 text-xl font-bold text-black">
               Find Your Knowledge
             </h3>
 
-            <div className="flex items-center rounded-lg border border-slate-200 bg-slate-50 px-4 focus-within:border-blue-500">
-              <Search size={20} className="text-slate-400" />
+            <div className="flex items-center rounded-lg border border-yellow-300 bg-yellow-50 px-4 transition focus-within:border-red-500">
+              <Search size={20} className="text-red-600" />
 
               <input
                 type="text"
                 placeholder="Search by title, description, category or tag..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full bg-transparent px-3 py-3 text-slate-800 outline-none placeholder:text-slate-400"
+                className="w-full bg-transparent px-3 py-3 text-black outline-none placeholder:text-zinc-500 text-xl"
               />
             </div>
 
           </section>
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
 
-  {/* Type Filter */}
-  <select
-    value={selectedType}
-    onChange={(e) => setSelectedType(e.target.value)}
-    className="rounded-lg border border-slate-200 bg-white p-3 text-sm outline-none focus:border-blue-500"
-  >
-    <option value="all">All Types</option>
-    <option value="note">Notes</option>
-    <option value="snippet">Snippets</option>
-    <option value="resource">Resources</option>
-  </select>
+          {/* Filters */}
+          <div
+            id="knowledge-filters"
+            className="mt-4 mb-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
+          >
 
-  {/* Language Filter */}
-  <select
-    value={selectedLanguage}
-    onChange={(e) => setSelectedLanguage(e.target.value)}
-    className="rounded-lg border border-slate-200 bg-white p-3 text-sm outline-none focus:border-blue-500"
-  >
-    <option value="all">All Languages</option>
-    {[...new Set(knowledge.map(item => item.language).filter(Boolean))].map(language => (
-      <option key={language} value={language}>
-        {language}
-      </option>
-    ))}
-  </select>
+            {/* Type Filter */}
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="rounded-lg border border-yellow-400 bg-white p-3 text-md text-black outline-none focus:border-red-500"
+            >
+              <option value="all">All Types</option>
+              <option value="note">Notes</option>
+              <option value="snippet">Snippets</option>
+              <option value="resource">Resources</option>
+            </select>
 
-  {/* Category Filter */}
-  <select
-    value={selectedCategory}
-    onChange={(e) => setSelectedCategory(e.target.value)}
-    className="rounded-lg border border-slate-200 bg-white p-3 text-sm outline-none focus:border-blue-500"
-  >
-    <option value="all">All Categories</option>
-    {[...new Set(knowledge.map(item => item.category).filter(Boolean))].map(category => (
-      <option key={category} value={category}>
-        {category}
-      </option>
-    ))}
-  </select>
+            {/* Language Filter */}
+            <select
+              value={selectedLanguage}
+              onChange={(e) => setSelectedLanguage(e.target.value)}
+              className="rounded-lg border border-yellow-400 bg-white p-3 text-sm text-black outline-none focus:border-red-500"
+            >
+              <option value="all">All Languages</option>
+              {[...new Set(knowledge.map(item => item.language).filter(Boolean))].map(language => (
+                <option key={language} value={language}>
+                  {language}
+                </option>
+              ))}
+            </select>
 
-  {/* Sorting */}
-  <select
-    value={sortOrder}
-    onChange={(e) => setSortOrder(e.target.value)}
-    className="rounded-lg border border-slate-200 bg-white p-3 text-sm outline-none focus:border-blue-500"
-  >
-    <option value="newest">Newest First</option>
-    <option value="oldest">Oldest First</option>
-  </select>
+            {/* Category Filter */}
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="rounded-lg border border-yellow-400 bg-white p-3 text-sm text-black outline-none focus:border-red-500"
+            >
+              <option value="all">All Categories</option>
+              {[...new Set(knowledge.map(item => item.category).filter(Boolean))].map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
 
-</div>
+            {/* Sorting */}
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+              className="rounded-lg border border-yellow-400 bg-white p-3 text-sm text-black outline-none focus:border-red-500"
+            >
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+            </select>
+
+          </div>
 
           {/* Knowledge Records */}
-          <section>
+          <section id="knowledge-records">
 
             <div className="mb-5 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-slate-900">
+              <h3 className="text-2xl font-extrabold text-black">
                 Recent Knowledge
               </h3>
 
-              <span className="text-sm text-slate-500">
+              <span className="rounded-lg bg-yellow-300 px-3 py-1 text-sm font-bold text-black">
                 {filteredKnowledge.length} items
               </span>
             </div>
 
             {loading ? (
-              <p className="rounded-xl bg-white p-8 text-center text-slate-500">
+              <p className="rounded-xl border border-yellow-400 bg-white p-8 text-center text-zinc-500">
                 Loading your knowledge...
               </p>
             ) : filteredKnowledge.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-slate-300 bg-white p-10 text-center">
-                <BookOpen size={40} className="mx-auto mb-3 text-slate-300" />
+              <div className="rounded-xl border border-dashed border-yellow-500 bg-white p-10 text-center">
+                <BookOpen size={40} className="mx-auto mb-3 text-yellow-500" />
 
-                <h4 className="font-semibold text-slate-800">
+                <h4 className="font-bold text-black">
                   No knowledge found
                 </h4>
 
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-2 text-sm text-zinc-500">
                   Start saving your notes, code snippets and resources.
                 </p>
+
+                <button
+                  onClick={() => navigate("/add-knowledge")}
+                  className="mt-5 rounded-lg bg-red-600 px-5 py-2 font-semibold text-white transition hover:bg-black"
+                >
+                  Add Knowledge
+                </button>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
 
                 {filteredKnowledge.map((item) => (
-                 <div
-  key={item._id}
-  onClick={() => handleViewKnowledge(item._id)}
-  className="cursor-pointer rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
->
+                  <div
+                    key={item._id}
+                    onClick={() => handleViewKnowledge(item._id)}
+                    className="cursor-pointer rounded-xl border border-yellow-400 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-red-500 hover:shadow-lg"
+                  >
 
                     <div className="mb-3 flex items-start justify-between gap-3">
 
-                      <h4 className="text-lg font-semibold text-slate-900">
+                      <h4 className="text-lg font-bold text-black">
                         {item.title}
                       </h4>
 
-                      <span className="shrink-0 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium capitalize text-blue-600">
+                      <span className="shrink-0 rounded-full bg-red-100 px-3 py-1 text-xs font-semibold capitalize text-red-700 text-md">
                         {item.type}
                       </span>
 
                     </div>
 
-                    <p className="mb-4 text-sm leading-6 text-slate-500">
+                    <p className="mb-4 text-sm leading-6 text-zinc-600">
                       {item.description || "No description available."}
                     </p>
 
                     <div className="mb-4 flex flex-wrap gap-2">
 
                       {item.language && (
-                        <span className="rounded-md bg-slate-100 px-3 py-1 text-xs text-slate-600">
+                        <span className="rounded-md bg-yellow-300 px-3 py-1 text-xs font-semibold text-black">
                           {item.language}
                         </span>
                       )}
 
                       {item.category && (
-                        <span className="rounded-md bg-purple-50 px-3 py-1 text-xs text-purple-600">
+                        <span className="rounded-md bg-zinc-900 px-3 py-1 text-xs text-yellow-300">
                           {item.category}
                         </span>
                       )}
@@ -569,7 +589,7 @@ const chartColors = [
                       {item.tags?.map((tag, index) => (
                         <span
                           key={index}
-                          className="rounded-md bg-green-50 px-3 py-1 text-xs text-green-600"
+                          className="rounded-md bg-red-50 px-3 py-1 text-md text-red-700"
                         >
                           #{tag}
                         </span>
@@ -577,8 +597,8 @@ const chartColors = [
 
                     </div>
 
-                    <div className="flex items-center gap-2 border-t border-slate-100 pt-3 text-xs text-slate-400">
-                      <Clock size={14} />
+                    <div className="flex items-center gap-2 border-t border-yellow-100 pt-3 text-md  text-zinc-500">
+                      <Clock size={14} className="text-red-600 " />
                       {new Date(item.createdAt).toLocaleDateString()}
                     </div>
 

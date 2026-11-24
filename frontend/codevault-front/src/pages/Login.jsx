@@ -45,25 +45,34 @@ function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-10">
+    <div
+      className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed px-4 py-10"
+      style={{
+        backgroundImage: "url('/dev-background.png')"
+      }}
+    >
 
-      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-blue-300 p-8 shadow-2xl">
+      {/* Black Overlay */}
+      <div className="absolute inset-0 bg-black/60"></div>
+
+      {/* Login Card */}
+      <div className="relative z-10 w-full max-w-md rounded-2xl border border-yellow-200 bg-yellow-300 p-8 shadow-2xl">
 
         {/* Logo */}
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-blue-800/10">
-            <Code2 size={30} className="text-blue-800" />
+            <Code2 size={30} className="text-black" />
           </div>
 
-          <h1 className="text-3xl font-bold text-blue-900">
-            Code<span className="text-blue-500">Vault</span>
+          <h1 className="text-3xl font-bold text-black">
+            Code<span className="text-red-500">Vault</span>
           </h1>
 
-          <h2 className="mt-4 text-xl font-semibold text-black">
+          <h2 className="mt-4 text-2xl font-semibold text-zinc-00">
             Welcome Back!
           </h2>
 
-          <p className="mt-2 text-sm text-slate-700">
+          <p className="mt-2 text-sm text-red-700">
             Login to access your developer knowledge.
           </p>
         </div>
@@ -72,12 +81,12 @@ function Login() {
         <form onSubmit={handleSubmit} className="space-y-5">
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-black">
+            <label className="mb-2 block text-md font-medium text-black">
               Email Address
             </label>
 
-            <div className="flex items-center rounded-lg border border-blue-400 bg-blue-800 px-3 focus-within:border-sky-800">
-              <Mail size={18} className="text-black" />
+            <div className="flex items-center rounded-lg border border-yellow-400 bg-black px-3 focus-within:border-sky-800">
+              <Mail size={18} className="text-slate-400" />
 
               <input
                 type="email"
@@ -92,11 +101,11 @@ function Login() {
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-black">
+            <label className="mb-2 block text-md font-medium text-black rounded-md">
               Password
             </label>
 
-            <div className="flex items-center rounded-lg border border-blue-400 bg-slate-800 px-3 focus-within:border-blue-500">
+            <div className="flex items-center rounded-lg border border-yellow-400 bg-black px-3 focus-within:border-yellow-500">
               <Lock size={18} className="text-slate-400" />
 
               <input
@@ -114,7 +123,7 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-blue-700 py-3 font-semibold text-white transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-lg bg-red-600 py-3 font-semibold text-white transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Logging in..." : "Login to CodeVault"}
           </button>
@@ -128,11 +137,11 @@ function Login() {
         )}
 
         <div className="mt-6 border-t border-slate-800 pt-5 text-center">
-          <p className="text-sm text-blue-700">
+          <p className="text-md text-black">
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="font-semibold text-black hover:text-blue-800"
+              className="font-semibold text-red-600 hover:text-black"
             >
               Create Account
             </Link>
@@ -143,5 +152,4 @@ function Login() {
     </div>
   );
 }
-
 export default Login;
